@@ -13,6 +13,15 @@
       <input type="file" name="video" id="videoInput" accept="video/*" required />
       <button type="submit">Upload</button>
     </form>
+
+    <h2>Watch Uploaded Video</h2>
+    <input type="text" id="filename" placeholder="Enter filename (e.g., 1658897769000-myvideo.mp4)" />
+    <button onclick="loadVideo()">Load Video</button>
+
+    <div id="videoSection" style="display: none;">
+      <h3 id="videoTitle"></h3>
+      <video id="videoPlayer" controls></video>
+    </div>
   </div>
 
   <script>
@@ -33,7 +42,22 @@
       alert(result.message + '\\nFilename: ' + result.file.filename);
     });
 
- 
+    function loadVideo() {
+      const filename = document.getElementById('filename').value;
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoTitle = document.getElementById('videoTitle');
+      const videoSection = document.getElementById('videoSection');
+
+      if (!filename) {
+        alert("Please enter a filename.");
+        return;
+      }
+
+      videoPlayer.src = `http://localhost:5000/api/videos/${filename}`;
+      videoTitle.textContent = `Now Playing: ${filename}`;
+      videoSection.style.display = 'block';
+      videoPlayer.load();
+    }
   </script>
 </body>
 </html>
