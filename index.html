@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Upload</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Video</h1>
+    <form id="uploadForm">
+      <input type="file" name="video" id="videoInput" accept="video/*" required />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+
+  <script>
+    const uploadForm = document.getElementById('uploadForm');
+
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('videoInput');
+      const formData = new FormData();
+      formData.append('video', fileInput.files[0]);
+
+      const response = await fetch('http://localhost:5000/api/videos/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      alert(result.message + '\\nFilename: ' + result.file.filename);
+    });
+
+ 
+  </script>
+</body>
+</html>
